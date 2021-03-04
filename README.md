@@ -24,6 +24,17 @@ The following files are relevance judgments for query-table/context pairs.
 | Relevance Judgment for query-textBefore pairs.                                                                                                                  | ./data/rel_textBefore_qrels.txt |
 
 
+
+## Table-Query Dumps
+
+
+|                                           Description                                          |                                   Location                                  |
+|:----------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------:|
+| The same set of 60 queries used in [WikiTables](https://github.com/iai-group/www2018-table).   | ./data/queries.txt                                                          |
+| The set of raw table content in the pooled results.                                            | ./data/wdc_pool.json.tar.gz                                                 |
+| The full version of processed WTR table dump (with entity linking results).                    | [click to download]<br>(<br>https://zenodo.org/record/3627274#.YD31RS2cbcI) |
+
+
 ## Splits for Cross Validation
 
 We provide the 5-fold data splits under "./data/" and each file is named as "fold_split.jsonl".
