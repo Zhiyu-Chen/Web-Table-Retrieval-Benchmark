@@ -56,7 +56,7 @@ Here we describe how to process the raw original WDC corpus and obtain the pooli
 
 ## Environment
 
-We use [elasticsearch 5.2](https://www.elastic.co/downloads/past-releases/elasticsearch-5-3-0) to index the corpus.
+We use [elasticsearch 5.3](https://www.elastic.co/downloads/past-releases/elasticsearch-5-3-0) to index the corpus.
 Please run it when you index and obtain the pooling results.
 
 Besides, we have the following environment
