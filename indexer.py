@@ -124,37 +124,8 @@ def index_webTables(index_name = 'webtables'):
 
 
 
-"""
-recheck entities:
-1. missed ones in original dump ?
-2. only check pool_dump: entities not in RDF2VEC.  RAW_JSON V.S. ENTITIES
 
-"""
-
-
-# read from original dump
-# t2e = get_table_entities()
-# entities = set()
-# for tid in t2e:
-#     for each in t2e[tid]:
-#         entities.add(each)
-#
-# # read missed entities
-# missed = []
-# f = open('missed_entities.txt')
-# for line in f:
-#         missed.append(line.strip())
-#
-#
-# for each in missed:
-#     if each not in entities:
-#         print(each)
-#
-# print("Done")
-
-# if __name__ == '__main__':
-#     index_webTables(webtable_index_name)
-
-
+if __name__ == '__main__':
+    index_webTables()
 
 

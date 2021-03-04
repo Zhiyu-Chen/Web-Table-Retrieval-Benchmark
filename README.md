@@ -26,7 +26,8 @@ To reproduce and index the WTR table dump, there are three steps:
 ```
 
 Please check the data paths/folder structures in "metadata.py".
-For convenience, we provide the processed WTR table dump [here](http://www.cse.lehigh.edu/~brian/data/WTR_tables.tar.gz).
+For convenience, we provide the processed WTR table dump [here](http://www.cse.lehigh.edu/~brian/data/WTR_tables.tar.gz). You can directly index this file(i.e. step 3).
+
 
 ## Pooled Results
 
