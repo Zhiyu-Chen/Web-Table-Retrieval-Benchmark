@@ -38,6 +38,7 @@ The following files are relevance judgments for query-table/context pairs.
 ## Splits for Cross Validation
 
 We provide the 5-fold data splits under "./data/" and each file is named as "fold_split.jsonl".
+For example, "1_train.jsonl" is the training set for fold 1.
 Our baselines are trained/tested on those data splits for 5-fold cross validation. 
  In each record of a JSON file, we provide the query, table content and label(the label in ./data/rel_table_qrels.txt).
  
