@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteMappingsManager">
+    <list>
+      <list>
+        <remote-mappings server-id="python@sftp://colozoy@128.180.108.58:22/home/colozoy/.conda/envs/p3/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$/../Web-Table-Retrieval-Benchmar" remote-root="/home/colozoy/Dropbox/repo/research/Web-Table-Retrieval-Benchmark" />
+            </list>
+          </settings>
+        </remote-mappings>
+      </list>
+    </list>
+  </component>
+</project>

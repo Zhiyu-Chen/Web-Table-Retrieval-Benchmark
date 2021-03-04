@@ -32,6 +32,7 @@ def run_WDC_singleField(topn=20):
                 rank += 1
         f_rank.close()
 
+
 def collect_pooled_WDC_tables():
     # collect table ids from all result files
     pool_files = glob(os.path.join(wdc_rank_path,'*'))
@@ -50,24 +51,6 @@ def collect_pooled_WDC_tables():
         f_table.write(json.dumps(doc['_source'])+'\n')
     f_table.close()
 
-
-# def run_WDC_multiField(topn=20):
-#     es = Elastic(index_name=webtable_index_name)
-#     wiki_loader = WikiTables('./data/www2018')
-#     q_dict = wiki_loader.get_queries()
-#     queries = [es.analyze_query({'text': q_dict[q]}) for q in q_dict]
-#     fields = ['content', 'textBefore', 'textAfter', 'pageTitle', 'title', 'header']
-#     field_weights = {
-#         'content':0.6,
-#         'textBefore':0.1,
-#         'textAfter':0.1,
-#         'pageTitle':0.1,
-#         'title':0.05,
-#         'header':0.05,
-#     }
-#     params = {"fields": field_weights}
-#     for query in queries:
-#         rs = ScorerMLM(es,query.params).score_doc()
 
 
 if __name__  == '__main__':
