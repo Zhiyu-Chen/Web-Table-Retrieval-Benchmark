@@ -1,8 +1,8 @@
 # WTR test collection
 
 Web Table Retrieval (WTR) test collection is a benchmark for table retrieval based on a large-scale Web Table Corpora extracted from the Common Crawl.
-We not only provide relevance judgments of query-table pairs, but also the relevance judgments of query-table context pairs with respect to a query.
-
+Each table in WTR has rich context (page title, entities, text before/after the table).
+Therefore, we not only provide relevance judgments of query-table pairs, but also the relevance judgments of query-table context pairs with respect to a query.
 ![AMT example](./figures/task_illu.png)
 
 
