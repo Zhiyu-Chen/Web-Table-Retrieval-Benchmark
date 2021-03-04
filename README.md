@@ -24,10 +24,12 @@ The following files are relevance judgments for query-table/context pairs.
 | Relevance Judgment for query-textBefore pairs.                                                                                                                  | ./data/rel_textBefore_qrels.txt |
 
 
-## 5 fold 
+## Splits for Cross Validation
 
-We provide the 5-fold data splits under "./data/" and each split is named as "fold_split.jsonl".
+We provide the 5-fold data splits under "./data/" and each file is named as "fold_split.jsonl".
+Our baselines are trained/tested on those data splits for 5-fold cross validation. 
  In each record of a JSON file, we provide the query, table content and label(the label in ./data/rel_table_qrels.txt).
+ 
  
 ## Baselines
 
