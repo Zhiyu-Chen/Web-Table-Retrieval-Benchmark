@@ -54,6 +54,7 @@ Besides, we have the following environment
 python 3.7
 pandas 0.25.3
 elasticsearch 5.5.3
+nltk 3.4.5
 numpy 1.17.4
 scipy 1.5.2
 

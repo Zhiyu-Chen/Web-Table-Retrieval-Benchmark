@@ -159,14 +159,3 @@ class WDCTables:
         return self.table_dict[tid]['entities']
 
 
-
-
-class QrelReader(object):
-    '''
-    read qrel files into dictionary, or the reverse way
-    '''
-    def __init__(self):
-        self.qrel_df = None
-        self.qrel_dict = None
-        self.fields = ["PageTitle","entity","table","textAfter","textBefore"]
-
