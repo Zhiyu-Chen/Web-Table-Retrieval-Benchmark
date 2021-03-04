@@ -11,13 +11,13 @@ We not only provide relevance judgments of query-table pairs, but also the relev
 
 ## Relevance Judgements
 
-The following files are relevance judgements for query-table/context pairs.
+The following files are relevance judgments for query-table/context pairs.
 
 
 
 |                                                                           Description                                                                           |             Location            |
 |:---------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------:|
-| Relevance Judgment for query-table pairs. It corresponds to <br>the previous test collections(e.g. [WikiTables](https://github.com/iai-group/www2018-table)).   | ./data/rel_table_qrels.txt      |
+| Relevance Judgment for query-table pairs. It corresponds to <br> the annotations of previous test collections(e.g. [WikiTables](https://github.com/iai-group/www2018-table)).   | ./data/rel_table_qrels.txt      |
 | Relevance Judgment for query-page title pairs.                                                                                                                  | ./data/rel_PageTitle_qrels.txt  |
 | Relevance Judgment for query-entities pairs.                                                                                                                    | ./data/rel_entity_qrels.txt     |
 | Relevance Judgment for query-textAfter pairs.                                                                                                                   | ./data/rel_textAfter_qrels.txt  |
@@ -65,11 +65,11 @@ To reproduce and index the WTR table dump, there are three steps:
 ```
     wget -i file_list.txt
 ```
-3. match the downloaded wdc dumps with the entity linking results (available [here](https://zenodo.org/record/3627274#.YD31RS2cbcI) ) from "Novel Entity Discovery from Web Tables, WWW 2020":
+2. match the downloaded wdc dumps with the entity linking results (available [here](https://zenodo.org/record/3627274#.YD31RS2cbcI) ) from "Novel Entity Discovery from Web Tables, WWW 2020":
 ```
     python extract.py
 ```
-5. create the index (with elasticsearch running as the backend):
+3. create the index (with elasticsearch running as the backend):
 ```
     python indexer.py
 ```
