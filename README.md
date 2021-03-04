@@ -10,7 +10,10 @@
 ```
       python extract.py
 ```
-5. run "python indexer.py" to create the index.
+5. create the index (with elasticsearch running as the backend):
+```
+python indexer.py
+```
 
 We also provide the processed WTR table dump [here](http://www.cse.lehigh.edu/~brian/data/WTR_tables.tar.gz).
 
