@@ -32,7 +32,7 @@ The following files are relevance judgments for query-table/context pairs.
 |:----------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------:|
 | The same set of 60 queries used in [WikiTables](https://github.com/iai-group/www2018-table).   | ./data/queries.txt                                                          |
 | The set of raw table content in the pooled results.                                            | ./data/wdc_pool.json.tar.gz                                                 |
-| The full version of processed WTR table dump (with entity linking results).                    | [click to download]<br>(<br>https://zenodo.org/record/3627274#.YD31RS2cbcI) |
+| The full version of processed WTR table dump (with entity linking results).                    | [click to download](https://zenodo.org/record/3627274#.YD31RS2cbcI) |
 
 
 ## Splits for Cross Validation
