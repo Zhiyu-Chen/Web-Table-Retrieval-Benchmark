@@ -2,9 +2,11 @@
 
 ## Data Preprocessing and Indexing
 
-1. run "python download.py" to download the wdc dump files from file_list. Check metadata.py for folder structure.
-2. run "python extract.py" to match the downloaded wdc dumps with the entity linking results (available [here](https://zenodo.org/record/3627274#.YD31RS2cbcI) ) from "Novel Entity Discovery from Web Tables, WWW 2020".
-3. run "python indexer.py" to create the index.
+1. download the wdc dump files from file_list:
+      wget -i file_list.txt
+     
+3. run "python extract.py" to match the downloaded wdc dumps with the entity linking results (available [here](https://zenodo.org/record/3627274#.YD31RS2cbcI) ) from "Novel Entity Discovery from Web Tables, WWW 2020".
+4. run "python indexer.py" to create the index.
 
 We also provide the processed WTR table dump [here](http://www.cse.lehigh.edu/~brian/data/WTR_tables.tar.gz).
 
