@@ -9,7 +9,7 @@ Therefore, we not only provide relevance judgments of query-table pairs, but als
 # Dataset Summary
 
 
-## Relevance Judgements
+## Relevance Judgments
 
 The following files are relevance judgments for query-table/context pairs.
 
