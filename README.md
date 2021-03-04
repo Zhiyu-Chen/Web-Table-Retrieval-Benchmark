@@ -1,6 +1,6 @@
 # WTR test collection
 
-Web Table Retrieval (WTR) is a test collection for table retrieval based on a large- scale Web Table Corpora extracted from the Common Crawl.
+Web Table Retrieval (WTR) test collection is a benchmark for table retrieval based on a large-scale Web Table Corpora extracted from the Common Crawl.
 We not only provide relevance judgments of query-table pairs, but also the relevance judgments of query-table context pairs with respect to a query.
 
 ![AMT example](./figures/task_illu.png)
@@ -8,6 +8,9 @@ We not only provide relevance judgments of query-table pairs, but also the relev
 
 
 ## Data Preprocessing and Indexing
+
+
+To reproduce and index the WTR table dump, there are three steps: 
 
 1. download the wdc dump files from file_list:
 ```
@@ -22,11 +25,15 @@ We not only provide relevance judgments of query-table pairs, but also the relev
       python indexer.py
 ```
 
-We also provide the processed WTR table dump [here](http://www.cse.lehigh.edu/~brian/data/WTR_tables.tar.gz).
+Please check the data paths/folder structures in "metadata.py".
+For convenience, we provide the processed WTR table dump [here](http://www.cse.lehigh.edu/~brian/data/WTR_tables.tar.gz).
 
 ## Pooled Results
 
-run "python pool_ranker.py" to get initial top-20 results from unsupervised baselines(BM25 on different fields).
+You can obtian the initial top-20 results from unsupervised baselines(BM25 on different fields) by running:
+```
+ "python pool_ranker.py"
+```
 
 The ranking results in TREC format are saved under "./ranking/pool/". The file name corresponds to the field.
 We also provide the pooled tables in "./data/wdc_pool.json.tar.gz" where you can access the raw table content according to the table id,.
