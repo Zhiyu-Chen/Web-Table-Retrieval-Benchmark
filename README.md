@@ -1,4 +1,11 @@
-# Table-Retrieval-Benchmark
+# WTR test collection
+
+Web Table Retrieval (WTR) is a test collection for table retrieval based on a large- scale Web Table Corpora extracted from the Common Crawl.
+We not only provide relevance judgments of query-table pairs, but also the relevance judgments of query-table context pairs with respect to a query.
+
+![AMT example](./figures/task_illu.pdf)
+
+<image src="./figures/task_illu.pdf"/>
 
 ## Data Preprocessing and Indexing
 
