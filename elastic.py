@@ -12,7 +12,9 @@ import os
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 from collections import defaultdict
+from joblib import Parallel, delayed
 from metadata import *
+from scipy.spatial.distance import cosine
 
 
 ES_config = {
@@ -265,7 +267,10 @@ class Elastic(object):
             results[hit["_id"]] = hit["_score"]
         return results
 
-
+    def bulk_search(self, queries,field):
+        results = Parallel(n_jobs= -1, backend="threading")\
+            (delayed(bulk_search_wrapper)(i) for i in zip([self]*len(queries), queries,[field]*len(queries)))
+        return results
 
     def multi_search(self, query, field_weights,num=100,only_ids = True,start=0):
         """
@@ -295,6 +300,132 @@ class Elastic(object):
         items = items[:num]
         if only_ids:
             return [each[0] for each in items]
+        return items
+
+
+
+    def bulk_multi_search(self,queries, field_weights,num=100,only_ids = True,start=0):
+        results = Parallel(n_jobs=-1, backend="threading") \
+            (delayed(bulk_multi_search_wrapper)(i) for i in zip([self] * len(queries), queries, [field_weights] * len(queries),[num]*len(queries)))
+        return results
+
+    def search_schema(self, header_mode,tid_schemas,tid_origin,query,schema_fields, field_weights,schema_sim, num=100, only_ids=False,start=0):
+        """
+        :param query:
+        :param schema_fields:
+        :param field_weights:  a dictionary containing field names and corresponding weights
+        :param start:
+        :return:
+        """
+        fields = list(field_weights.keys())
+        total_doc = self.num_docs()
+        doc_scores = defaultdict(lambda: defaultdict(float))
+        for field in fields:
+            if field not in schema_fields:
+                if field_weights[field] == 0:
+                    continue
+                hits = self.__es.search(index=self.__index_name, q=query, df=field, _source=False, size=total_doc,
+                                        from_=start)["hits"]["hits"]
+                for each_hit in hits:
+                    doc_scores[each_hit['_id']][field] = each_hit['_score']
+            else:
+                # comparing similarity between query and schema embedding
+                if self.all_ids is None:
+                    self.get_all_doc_ids()
+
+                self.load_embedding(schema_sim)
+                for doc_id in self.all_ids:
+                    if header_mode == 'origin':
+                        schemas = tid_origin[doc_id]
+                    elif header_mode == 'generated':
+                        schemas = tid_schemas[doc_id]
+                    elif header_mode == 'both':
+                        schemas = tid_origin[doc_id] + tid_schemas[doc_id]
+                    if len(schemas) == 0:
+                        doc_scores[doc_id][field] = 0
+                        continue
+                    if schema_sim == 'cosine':
+                        schema_vec = self.fasttext_model.get_sentence_vector(schemas)
+                        query_vec = self.fasttext_model.get_sentence_vector(query)
+                        doc_scores[doc_id][field] = 1 - cosine(schema_vec,query_vec)
+                    elif schema_sim == 'wmd':
+                        query_tokens = self.get_text_tokens(query)
+                        #schema_tokens = self.get_text_tokens(schemas)
+                        schema_tokens = list(set([each.lower() for each in schemas]))
+                        doc_scores[doc_id][field] = - self.gensim_wrapper.wmdistance(query_tokens,schema_tokens)
+        # combine scores
+        for d_id in doc_scores:
+            d_score = 0
+            for field in doc_scores[d_id]:
+                d_score += doc_scores[d_id][field] * field_weights[field]
+            doc_scores[d_id]['score'] = d_score
+
+        items = sorted(doc_scores.items(), key=lambda kv: kv[1]['score'], reverse=True)
+        items = items[:num]
+        if only_ids:
+            return [each[0] for each in items]
+        return items
+
+    def bulk_schema_search(self,tid_schemas,queries,schema_fields, field_weights,schema_sim,num=100,only_ids = True,start=0):
+        results = Parallel(n_jobs=-1, backend="threading") \
+            (delayed(bulk_schema_search_wrapper)(i) for i in zip([self] * len(queries),[tid_schemas]* len(queries), queries, [schema_fields] * len(queries), [field_weights] * len(queries),[schema_sim]*len(queries),[num]*len(queries)))
+        return results
+
+
+    def schema_rerank(self, query,schema_fields, field_weights,schema_sim,num=100, only_ids=True, start=0):
+        """
+        :param query:
+        :param schema_fields:
+        :param field_weights:  a dictionary containing field names and corresponding weights
+        :param start:
+        :return:
+        """
+        fields = list(field_weights.keys())
+        fields = [each for each in fields if each not in schema_fields]
+        doc_scores = defaultdict(lambda: defaultdict(int))
+        for field in fields:
+            if field_weights[field] == 0:
+                continue
+            hits = self.__es.search(index=self.__index_name, q=query, df=field, _source=False, size=num,
+                                    from_=start)["hits"]["hits"]
+            for each_hit in hits:
+                doc_scores[each_hit['_id']][field] = each_hit['_score']
+
+
+        self.load_embedding(schema_sim)
+        for field in schema_fields:
+            for doc_id in doc_scores:
+                doc_rs = self.get_doc(doc_id,source=[field])
+                if field not in doc_rs['_source']:
+                    doc_scores[doc_id][field] = 0
+                    continue
+                schemas = doc_rs['_source'][field]
+                if schema_sim == 'cosine':
+                    schema_vec = self.fasttext_model.get_sentence_vector(schemas)
+                    query_vec = self.fasttext_model.get_sentence_vector(query)
+                    doc_scores[doc_id][field] = 1 - cosine(schema_vec,query_vec)
+                elif schema_sim == 'wmd':
+                    query_tokens = self.get_text_tokens(query)
+                    schema_tokens = self.get_text_tokens(schemas)
+                    doc_scores[doc_id][field] = - self.gensim_wrapper.wmdistance(query_tokens,schema_tokens)
+
+        # combine scores
+        for d_id in doc_scores:
+            d_score = 0
+            for field in doc_scores[d_id]:
+                d_score += doc_scores[d_id][field] * field_weights[field]
+            doc_scores[d_id]['score'] = d_score
+
+        items = sorted(doc_scores.items(), key=lambda kv: kv[1]['score'], reverse=True)
+        items = items[:num]
+        if only_ids:
+            return [each[0] for each in items]
+        return items
+
+    def bulk_schema_rerank(self,queries,schema_fields, field_weights,schema_sim,num=100,only_ids = True,start=0):
+        results = Parallel(n_jobs=-1, backend="threading") \
+            (delayed(bulk_schema_rerank_wrapper)(i) for i in zip([self] * len(queries), queries, [schema_fields] * len(queries), [field_weights] * len(queries),[schema_sim]*len(queries),[num]*len(queries)))
+        return results
 
     def estimate_number(self, query):
         """Search body, return the number of hits containg body"""
@@ -459,3 +590,17 @@ if __name__ == "__main__":
     # pprint.pprint(es.get_termvector("<dbpedia:Category:People_of_Canadian_descent>", "title"))
     # pprint.pprint(es.search("people", "title", fields_return="title"))
 
+
+def bulk_search_wrapper(arg, **kwarg):
+    return Elastic.search(*arg, **kwarg)
+
+
+def bulk_multi_search_wrapper(arg, **kwarg):
+    return Elastic.multi_search(*arg, **kwarg)
+
+
+def bulk_schema_search_wrapper(arg, **kwarg):
+    return Elastic.search_schema(*arg, **kwarg)
+
+def bulk_schema_rerank_wrapper(arg, **kwarg):
+    return Elastic.schema_rerank(*arg, **kwarg)

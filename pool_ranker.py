@@ -16,7 +16,7 @@ import json
 
 def run_WDC_singleField(topn=20):
     es = Elastic(index_name=webtable_index_name)
-    wiki_loader = WikiTables('./data/www2018')
+    wiki_loader = WikiTables('./data')
     q_dict = wiki_loader.get_queries()
     queries = [es.analyze_query({'text': q_dict[q]}) for q in q_dict]
     fields = ['content','textBefore','textAfter','pageTitle','title','header','catchall']
