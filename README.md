@@ -6,9 +6,14 @@ We not only provide relevance judgments of query-table pairs, but also the relev
 ![AMT example](./figures/task_illu.png)
 
 
-## Dataset Summary
+# Dataset Summary
+
+
+## Relevance Judgements
 
 The following files are relevance judgements for query-table/context pairs.
+
+
 
 |                                                                           Description                                                                           |             Location            |
 |:---------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------:|
@@ -16,11 +21,43 @@ The following files are relevance judgements for query-table/context pairs.
 | Relevance Judgment for query-page title pairs.                                                                                                                  | ./data/rel_PageTitle_qrels.txt  |
 | Relevance Judgment for query-entities pairs.                                                                                                                    | ./data/rel_entity_qrels.txt     |
 | Relevance Judgment for query-textAfter pairs.                                                                                                                   | ./data/rel_textAfter_qrels.txt  |
-| Relevance Judgment for query-textBefore pairs.        
-                                                                                                          | ./data/rel_textBefore_qrels.txt |
+| Relevance Judgment for query-textBefore pairs.                                                                                                                  | ./data/rel_textBefore_qrels.txt |
 
-## Data Preprocessing and Indexing
 
+## 5 fold 
+
+We provide the 5-fold data splits under "./data/" and each split is named as "fold_split.jsonl".
+ In each record of a JSON file, we provide the query, table content and label(the label in ./data/rel_table_qrels.txt).
+ 
+## Baselines
+
+
+The rankings of baselines are under "./rankings/". Except "pool" folder, each of the rest folder is named by a baseline method and includes the corresponding ranking results in that folder.
+
+The STR features are saved in "./data/wdc_STR.csv". The 1st 9 features in the file are LTR features.
+
+# Reproduction
+
+Here we describe how to process the raw original WDC corpus and obtain the pooling results.
+
+
+## Environment
+
+We use [elasticsearch 5.2](https://www.elastic.co/downloads/past-releases/elasticsearch-5-3-0) to index the corpus.
+Please run it when you index and obtain the pooling results.
+
+Besides, we have the following environment
+
+```angular2html
+python 3.7
+pandas 0.25.3
+elasticsearch 5.5.3
+numpy 1.17.4
+scipy 1.5.2
+
+```
+
+## Preprocessing and Indexing
 
 To reproduce and index the WTR table dump, there are three steps: 
 
@@ -43,27 +80,14 @@ For convenience, we provide the processed WTR table dump [here](http://www.cse.l
 
 ## Pooled Results
 
-You can obtian the initial top-20 results from unsupervised baselines(BM25 on different fields) by running:
+You can obtain the initial top-20 results from unsupervised baselines(BM25 on different fields) by running:
 ```
     python pool_ranker.py
 ```
-
 The ranking results in TREC format are saved under "./ranking/pool/". The file name corresponds to the field.
-We also provide the pooled tables in "./data/wdc_pool.json.tar.gz" where you can access the raw table content according to the table id,.
+ We also provide the pooled tables in "./data/wdc_pool.json.tar.gz" 
+ where you can access the raw table content according to the table id.
 
 
-## 5 fold
-
-We provide the 5-fold data splits under "./data/" and each split is named as "fold_split.jsonl". For example, "1_train.jsonl" is the training set for fold 1. In each record of a JSON file, we provide the query, table content and label.
-
-
-
-## Baselines
-
-The rankings of baselines are under "./rankings/". Except "pool" folder, each of the rest folder is named by a baseline method and includes the corresponding ranking results in that folder.
-
-The STR features are saved in "./data/wdc_STR.csv". The 1st 9 features in the file are LTR features.
-
-
-## Acknowledgements
-The implementation of elasticsearch interface (elastic.py,elastic_cache.py) was adapted from [Nordlys](https://github.com/iai-group/nordlys).
+### Acknowledgements
+The implementation of elasticsearch interface (elastic.py,elastic_cache.py,scorer.py) was adapted from [Nordlys](https://github.com/iai-group/nordlys).

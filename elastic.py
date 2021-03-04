@@ -12,9 +12,7 @@ import os
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 from collections import defaultdict
-from joblib import Parallel, delayed
 from metadata import *
-from scipy.spatial.distance import cosine
 
 
 ES_config = {
