@@ -6,8 +6,11 @@
 ```
       wget -i file_list.txt
 ```
-3. run "python extract.py" to match the downloaded wdc dumps with the entity linking results (available [here](https://zenodo.org/record/3627274#.YD31RS2cbcI) ) from "Novel Entity Discovery from Web Tables, WWW 2020".
-4. run "python indexer.py" to create the index.
+3. match the downloaded wdc dumps with the entity linking results (available [here](https://zenodo.org/record/3627274#.YD31RS2cbcI) ) from "Novel Entity Discovery from Web Tables, WWW 2020":
+```
+      python extract.py
+```
+5. run "python indexer.py" to create the index.
 
 We also provide the processed WTR table dump [here](http://www.cse.lehigh.edu/~brian/data/WTR_tables.tar.gz).
 
