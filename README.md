@@ -3,6 +3,7 @@
 ## Data Preprocessing and Indexing
 
 1. download the wdc dump files from file_list:
+
       wget -i file_list.txt
      
 3. run "python extract.py" to match the downloaded wdc dumps with the entity linking results (available [here](https://zenodo.org/record/3627274#.YD31RS2cbcI) ) from "Novel Entity Discovery from Web Tables, WWW 2020".
