@@ -60,10 +60,9 @@ Here we describe how to process the raw original WDC corpus and obtain the pooli
 We use [elasticsearch 5.3](https://www.elastic.co/downloads/past-releases/elasticsearch-5-3-0) to index the corpus.
 Please run it when you index and obtain the pooling results.
 
-Besides, we have the following environment
+Besides, we have the following packaged installed with Python 3.7:
 
 ```angular2html
-python 3.7
 pandas 0.25.3
 elasticsearch 5.5.3
 nltk 3.4.5
