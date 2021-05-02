@@ -2,14 +2,14 @@
 
 Web Table Retrieval (WTR) test collection is a benchmark for table retrieval based on a large-scale Web Table Corpora extracted from the Common Crawl.
 Each table in WTR has rich context (page title, entities, text before/after the table).
-Therefore, we not only provide relevance judgments of query-table pairs, but also the relevance judgments of query-table context pairs with respect to a query.
+Therefore, we not only provide relevance judgments of query-table pairs, but also the relevance judgments of query-table context pairs.
 ![AMT example](./figures/task_illu.png)
 
 
 # Dataset Summary
 
 
-## Relevance Judgements
+## Relevance Judgments
 
 The following files are relevance judgments for query-table/context pairs.
 
@@ -60,10 +60,9 @@ Here we describe how to process the raw original WDC corpus and obtain the pooli
 We use [elasticsearch 5.3](https://www.elastic.co/downloads/past-releases/elasticsearch-5-3-0) to index the corpus.
 Please run it when you index and obtain the pooling results.
 
-Besides, we have the following environment
+Besides, we have the following packaged installed with Python 3.7:
 
 ```angular2html
-python 3.7
 pandas 0.25.3
 elasticsearch 5.5.3
 nltk 3.4.5
